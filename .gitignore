@@ -1,0 +1,13 @@
+
+# dependencies
+node_modules/
+
+# IDE - VSCode
+.vscode/
+
+# e2e
+/e2e/
+
+
+
+

@@ -1,0 +1,81 @@
+<div class="container">
+  <p-fieldset legend="Person list">
+    <p-table #dt [columns]="cols" [paginator]="true"
+             [resizableColumns]="true" [rows]="rows"
+             [scrollable]="true" [totalRecords]="persons.length" [value]="persons"
+             sortMode="multiple">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+          <button (click)="dt.exportCSV()" icon="fa fa-file-o" iconPos="left" label="CSV export" pButton
+                  style="float: left;" type="button"></button>
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+          <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText placeholder="Global Filter"
+                 size="50" style="width:auto"
+                 type="text">
+
+          <button (click)="add()" icon="fa fa-plus" iconPos="left" pButton title="add peson"
+                  style="float: right;width: 45px;" type="button"></button>
+
+        </div>
+      </ng-template>
+      <ng-template let-columns pTemplate="colgroup">
+        <colgroup>
+          <col *ngFor="let col of columns" [style.width]="col.width">
+        </colgroup>
+      </ng-template>
+      <ng-template let-columns pTemplate="header">
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+            {{col.header}}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+        <tr>
+          <th *ngFor="let col of columns">
+            <input (input)="dt.filter($event.target.value, col.field, 'contains')" [style.width]="col.width"
+                   class="header-input" pInputText type="text">
+          </th>
+          <th></th>
+
+        </tr>
+      </ng-template>
+      <ng-template let-columns="columns" let-person let-ri="rowIndex" pTemplate="body">
+        <tr>
+          <td *ngFor="let col of columns" class="ui-resizable-column">
+            {{person[col.field]}}
+          </td>
+          <td>
+            <button (click)="edit(ri)" icon="fa fa-pencil" iconPos="left" pButton title="edit peson"
+                    style="float:left;width: 40px;" type="button"></button>
+            <button (click)="delete(person['id'],ri)" icon="fa fa-trash" iconPos="left" pButton title="delete peson"
+                    style="float:right;width: 40px;" type="button"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-fieldset>
+
+
+  <p-dialog [(visible)]="display" [modal]="true" [width]="500">
+    <p-header> {{title}} Person</p-header>
+    <div *ngIf="person!==undefined">
+      <div class="ui-g">
+        <label class="ui-g-4" s for="firstName">First name</label>
+        <input class="form-control" [(ngModel)]="person.firstName" pInputText id="firstName" rows="8">
+      </div>
+      <div class="ui-g">
+        <label class="ui-g-4" for="lastName">Last name</label>
+        <input class="form-control" [(ngModel)]="person.lastName" pInputText id="lastName" rows="8">
+      </div>
+      <div class="ui-g">
+        <label class="ui-g-4" for="mail">E-mail</label>
+        <input class="form-control" [(ngModel)]="person.mail" pInputText id="mail" rows="8">
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="fa fa-check" label="Save" (click)="save()"></button>
+      <button type="button" pButton icon="fa fa-close" (click)="display=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>

@@ -1,0 +1,9 @@
+<div class="ui-g-12 h-main-menu">
+  <div class="ui-g-11">
+    <p-menubar [model]="items" (click)="activeMenu($event)"></p-menubar>
+  </div>
+  <div class="ui-g-1" align="right">
+    <a class="logout" href="/logout"><img src="assets/img/logout.png"></a>
+  </div>
+</div>
+<router-outlet></router-outlet>
